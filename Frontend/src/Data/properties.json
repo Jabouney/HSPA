@@ -1,7 +1,7 @@
 [
   {
     "Id": 1,
-    "SellRent": 1,
+    "SellRent": 2,
     "Name": "Birla House",
     "Type": "House",
     "Price": 12000,
@@ -25,7 +25,7 @@
   },
   {
     "Id": 4,
-    "SellRent": 2,
+    "SellRent": 1,
     "Name": "Gun Hill",
     "Type": "Duplex",
     "Price": 11400,
@@ -33,7 +33,7 @@
   },
   {
     "Id": 5,
-    "SellRent": 2,
+    "SellRent": 1,
     "Name": "Macro Home",
     "Type": "House",
     "Price": 14300,
@@ -42,7 +42,7 @@
   {
     "Id": 6,
     "SellRent": 1,
-    "Name": "Pearl White",
+    "Name": "Pearl House",
     "Type": "House",
     "Price": 18000
   }
