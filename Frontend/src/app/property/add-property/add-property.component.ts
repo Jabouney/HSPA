@@ -12,19 +12,15 @@ export class AddPropertyComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    //this.AddPropertyForm.controls['Name'].setValue('Default Value');
-    setTimeout(() => {
-      this.AddPropertyForm.controls['Name'].setValue('Default Value');
-    });
+
   }
 
   onBack() {
     this.router.navigate(['/']);
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     console.log("Congrats, form submitted.");
     console.log(this.AddPropertyForm);
   }
-
 }
