@@ -1,8 +1,8 @@
 <div class="card">
   <div class="card-img-wrapper">
-    <img *ngIf="CardProperty.image" class="card-img-top" src="assets/images/{{CardProperty.image}}.png">
-    <img *ngIf="!CardProperty.image" class="card-img-top" src="assets/images/house_default.png">
-    <ul class="list-inline text-center member-icons animate">
+    <img *ngIf="CardProperty.Image" class="card-img-top" src="assets/images/{{CardProperty.Image}}.png">
+    <img *ngIf="!CardProperty.Image" class="card-img-top" src="assets/images/house_default.png">
+    <ul *ngIf="!hideIcons" class="list-inline text-center member-icons animate">
       <li class="list-inline-item">
         <button class="btn btn-primary" routerLink="/property-detail/{{CardProperty.Id}}"><i class="far fa-edit"></i></button>
       </li>
@@ -13,8 +13,18 @@
   </div>
 
   <div class="card-body p-1">
-    <h1>{{CardProperty.Name}}</h1>
-    <h2>{{CardProperty.Type}}</h2>
-    <h2>{{CardProperty.Price}}</h2>
+    <h2 class="mb-0"> {{CardProperty.BHK}} BHK {{CardProperty.PType}} </h2>
+
+    in {{CardProperty.Name}}
+    <span *ngIf="CardProperty.Name">,</span>
+    {{CardProperty.City}}
+
+    <h6  class="mt-2">{{CardProperty.FType}}
+    <span *ngIf="CardProperty.FType !== 'Unfurnished'">Furnished</span> | Ready to Move</h6>
+
+    <hr class="mt-0 mb-2">
+
+    <h6 class="mb-0">Price: <span class="font-highlight">{{CardProperty.Price}} USD.</span> |
+      Area:  <span class="font-highlight">{{CardProperty.BuiltArea}} Sq Ft </span> </h6>
   </div>
 </div>

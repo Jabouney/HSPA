@@ -20,14 +20,6 @@ export class UserRegisterComponent implements OnInit {
               private alertifyService: AlertifyService) { }
 
   ngOnInit() {
-    // this.registerationForm = new FormGroup({
-    //  userName: new FormControl(null, Validators.required),
-    //  email: new FormControl(null, [Validators.required, Validators.email]),
-    //  password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
-    //  confirmPassword: new FormControl(null, Validators.required),
-    //  mobile: new FormControl(null, [Validators.required, Validators.maxLength(10)]),
-    // }, this.passwordMatchingValidator);
-
     this.createRegisterationForm();
   }
 
@@ -89,5 +81,4 @@ export class UserRegisterComponent implements OnInit {
       mobile: this.mobile.value,
     }
   }
-
 }
