@@ -3,6 +3,9 @@ import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { IPropertyBase } from 'src/app/model/ipropertybase';
+import { Property } from 'src/app/model/property';
+import { HousingService } from 'src/app/services/housing.service';
+import { AlertifyService } from 'src/app/services/alertify.service';
 
 @Component({
   selector: 'app-add-property',
@@ -13,11 +16,12 @@ export class AddPropertyComponent implements OnInit {
   @ViewChild('formTabs') formTabs: TabsetComponent;
   addPropertyForm: FormGroup;
   nextClicked: boolean;
+  property = new Property();
 
   // Will comes from masters
-  propertyTypes: Array<string> = ['House', 'Appartement', 'Duplex'];
+  propertyTypes: Array<string> = ['House', 'Apartment', 'Duplex'];
   furnishTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
-  location: Array<string> = ['East', 'West', 'South', 'North'];
+  mainEntrance: Array<string> = ['East', 'West', 'South', 'North'];
 
   propertyView: IPropertyBase = {
     Id: null,
@@ -32,7 +36,10 @@ export class AddPropertyComponent implements OnInit {
     RTM: null
   };
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(private fb: FormBuilder,
+              private router: Router,
+              private housingService: HousingService,
+              private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.createAddPropertyForm();
@@ -45,7 +52,7 @@ export class AddPropertyComponent implements OnInit {
         BHK: [null, Validators.required],
         PType: [null, Validators.required],
         FType: [null, Validators.required],
-        Name: [null, Validators.required],
+        Name: [null, [Validators.required, Validators.minLength(5)]],
         City: [null, Validators.required]
       }),
 
@@ -188,23 +195,78 @@ export class AddPropertyComponent implements OnInit {
 
   onSubmit() {
     this.nextClicked = true;
+    if (this.allTabsValid()) {
+      this.mapProperty();
+      this.housingService.addProperty(this.property);
+      this.alertify.success('Congrats, your property listed successfully on our website.');
+      console.log(this.addPropertyForm);
+
+      if (this.SellRentControl.value === '2') {
+        this.router.navigate(['/rent-property']);
+      }
+      else {
+        this.router.navigate(['/']);
+      }
+
+    }
+    else {
+      this.alertify.error('Please review the form and provid all valid entries.');
+    }
+  }
+
+  mapProperty(): void {
+    //this.property.Id = this.housingService.newPropID();
+    this.property.SellRent = +this.SellRentControl.value;
+    this.property.BHK = this.BHKControl.value;
+    this.property.PType = this.PTypeControl.value;
+    this.property.Name = this.NameControl.value;
+    this.property.City = this.CityControl.value;
+    this.property.FType = this.FTypeControl.value;
+    this.property.Price = this.PriceControl.value;
+    this.property.Security = this.SecurityControl.value;
+    this.property.Maintenance = this.MaintenanceControl.value;
+    this.property.BuiltArea = this.BuiltAreaControl.value;
+    this.property.CarpetArea = this.CarpetAreaControl.value;
+    this.property.FloorNo = this.FloorNoControl.value;
+    this.property.TotalFloor = this.TotalFloorControl.value;
+    this.property.Address = this.AddressControl.value;
+    this.property.Address2 = this.LandMarkControl.value;
+    this.property.RTM = this.RTMControl.value;
+    this.property.AOP = this.AOPControl.value;
+    this.property.Gated = this.GatedControl.value;
+    this.property.MainEntrance = this.MainEntranceControl.value;
+    this.property.Possession = this.PossessionOnControl.value;
+    this.property.Description = this.DescriptionControl.value;
+    this.property.PostedOn = new Date().toString();
+  }
+
+  allTabsValid(): boolean{
     if (this.BasicInfoGroup.invalid) {
       this.formTabs.tabs[0].active = true;
-      return;
+      return false;
     }
 
     if (this.PriceInfoGroup.invalid) {
       this.formTabs.tabs[1].active = true;
-      return;
+      return false;
     }
 
-    console.log("Congrats, form submitted.");
-    console.log(this.addPropertyForm);
+    if (this.AddressInfoGroup.invalid) {
+      this.formTabs.tabs[2].active = true;
+      return false;
+    }
+
+    if (this.OtherInfoGroup.invalid) {
+      this.formTabs.tabs[3].active = true;
+      return false;
+    }
+
+    return true;
   }
 
   selectTab(NextTabId: number, IsCurrentTabValid?: boolean) {
     this.nextClicked = true;
-    if (IsCurrentTabValid) {
+    if (IsCurrentTabValid || (IsCurrentTabValid == null)) {
       this.formTabs.tabs[NextTabId].active = true;
     }
   }

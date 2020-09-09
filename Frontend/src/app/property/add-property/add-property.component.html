@@ -22,12 +22,11 @@
 
                 <div class="form-group col-12">
                   <p>BHK</p>
-                  <div class="btn-group" btnRadioGroup name="BHK"
-                  [(ngModel)]="propertyView.BHK"
-                  [ngModelOptions]="{standalone: true}">
+                  <div class="btn-group" btnRadioGroup formControlName="BHK"
+                  [(ngModel)]="propertyView.BHK">
                     <label *ngFor="let bhk of [1,2,3,4]"
                     class="btn btn-outline-primary mr-2"
-                    [btnRadio]="bhk" tabindex="0" role="button" name="SellRent">{{bhk}}</label>
+                    [btnRadio]="bhk" tabindex="0" role="button" name="BHK">{{bhk}}</label>
                   </div>
                 </div>
 
@@ -37,7 +36,7 @@
                   [(ngModel)]="propertyView.PType">
                     <label *ngFor="let ptype of propertyTypes"
                     class="btn btn-outline-primary mr-2"
-                    [btnRadio]="ptype" tabindex="0" role="button" name="SellRent">{{ptype}}</label>
+                    [btnRadio]="ptype" tabindex="0" role="button" name="PType">{{ptype}}</label>
                   </div>
                   <div class="error-block" *ngIf="PTypeControl.invalid && nextClicked">
                     Please select property type
@@ -46,12 +45,11 @@
 
                 <div class="form-group col-12">
                   <p>Furnishing Type</p>
-                  <div class="btn-group" btnRadioGroup name="FType"
-                  [(ngModel)]="propertyView.FType"
-                  [ngModelOptions]="{standalone: true}">
+                  <div class="btn-group" btnRadioGroup formControlName="FType"
+                  [(ngModel)]="propertyView.FType">
                     <label *ngFor="let ftype of furnishTypes"
                     class="btn btn-outline-primary mr-2"
-                    [btnRadio]="ftype" tabindex="0" role="button" name="SellRent">{{ftype}}</label>
+                    [btnRadio]="ftype" tabindex="0" role="button" name="FType">{{ftype}}</label>
                   </div>
                 </div>
 
@@ -68,14 +66,13 @@
 
                 <div class="form-group col-12">
                   <label>City</label>
-                  <input type="text" class="form-control" name="City"
-                  [(ngModel)]="propertyView.City"
-                  [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" formControlName="City"
+                  [(ngModel)]="propertyView.City">
                 </div>
 
                 <div class="form-group col-12">
-                    <button type="button" [disabled]="BasicInfoGroup.invalid" class="btn btn-primary btn-block"
-                    (click)="selectTab(1)">Next</button>
+                    <button type="button" class="btn btn-primary btn-block"
+                    (click)="selectTab(1,BasicInfoGroup.valid)">Next</button>
                 </div>
               </tab>
 
@@ -94,14 +91,16 @@
                   </div>
                 </div>
 
-                <div class="form-group col-12">
-                  <label>Security (in USD)</label>
-                  <input type="text" class="form-control">
-                </div>
+                <div *ngIf="SellRentControl.value==2">
+                  <div class="form-group col-12">
+                    <label>Security (in USD)</label>
+                    <input type="text" class="form-control" formControlName="Security">
+                  </div>
 
-                <div class="form-group col-12">
-                  <label>Maintenance (in USD)</label>
-                  <input type="text" class="form-control">
+                  <div class="form-group col-12">
+                    <label>Maintenance (in USD)</label>
+                    <input type="text" class="form-control" formControlName="Maintenance">
+                  </div>
                 </div>
 
                 <div class="form-group col-12">
@@ -116,12 +115,12 @@
 
                 <div class="form-group col-12">
                   <label>Carpet Area(in Sqr Feet)</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" formControlName="CarpetArea">
                 </div>
 
                 <div class="form-group col-12">
                   <button type="button" class="btn btn-primary btn-block"
-                  (click)="selectTab(2)">Next</button>
+                  (click)="selectTab(2,PriceInfoGroup.valid)">Next</button>
 
                   <button type="button" class="btn btn-primary btn-block"
                   (click)="selectTab(0)">Back</button>
@@ -132,27 +131,27 @@
 
                 <div class="form-group col-12">
                   <label>Floor</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" formControlName="FloorNo">
                 </div>
 
                 <div class="form-group col-12">
                   <label>Total Floor</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" formControlName="TotalFloor">
                 </div>
 
                 <div class="form-group col-12">
                   <label>Address</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" formControlName="Address">
                 </div>
 
                 <div class="form-group col-12">
                   <label>Landmark</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" formControlName="LandMark">
                 </div>
 
                 <div class="form-group col-12">
                   <button type="button" class="btn btn-primary btn-block"
-                  (click)="selectTab(3)">Next</button>
+                  (click)="selectTab(3,AddressInfoGroup.valid)">Next</button>
 
                   <button type="button" class="btn btn-primary btn-block"
                   (click)="selectTab(1)">Back</button>
@@ -171,39 +170,40 @@
                 <div class="form-group col-6" *ngIf="RTMControl.value==2">
                   <label>Possession/Avaialble From</label>
                   <input type="text" placeholder="jj-mm-aaaa" class="form-control" bsDatepicker
-                  [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD-MM-YYYY'}">
+                  [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD-MM-YYYY'}"
+                  formControlName="PossessionOn">
                 </div>
 
                 <div class="form-group col-3" *ngIf="RTMControl.value==1">
                   <label>Age of Property</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" formControlName="AOP">
                 </div>
 
                 <div class="form-group col-12">
                   <p>Gated Community</p>
-                  <div class="btn-group" btnRadioGroup>
+                  <div class="btn-group" btnRadioGroup formControlName="Gated">
                     <label class="btn btn-outline-primary mr-2" btnRadio=1 tabindex="0" role="button" name="GM">Yes</label>
                     <label class="btn btn-outline-primary" btnRadio=2 tabindex="0" role="button" name="GM">No</label>
                   </div>
                 </div>
 
                 <div class="form-group col-12">
-                  <p>Ready to Move</p>
-                  <div class="btn-group" btnRadioGroup>
-                    <label *ngFor="let rtm of location"
+                  <p>Main Entrance</p>
+                  <div class="btn-group" btnRadioGroup formControlName="MainEntrance">
+                    <label *ngFor="let mEntr of mainEntrance"
                     class="btn btn-outline-primary mr-2"
-                    btnRadio=rtm tabindex="0" role="button" name="RTM2">{{rtm}}</label>
+                    [btnRadio]="mEntr" tabindex="0" role="button" name="Entrance">{{mEntr}}</label>
                   </div>
                 </div>
 
                 <div class="form-group col-12">
                   <label>Description</label>
-                  <textarea type="text" class="form-control" rows="6"></textarea>
+                  <textarea type="text" class="form-control" rows="6" formControlName="Description"></textarea>
                 </div>
 
                 <div class="form-group col-12">
                     <button type="button" class="btn btn-primary btn-block"
-                    (click)="selectTab(4)">Next</button>
+                    (click)="selectTab(4, OtherInfoGroup.valid)">Next</button>
 
                     <button type="button" class="btn btn-primary btn-block"
                     (click)="selectTab(2)">Back</button>
