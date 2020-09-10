@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HousingService } from 'src/app/services/housing.service';
 import { ActivatedRoute } from '@angular/router';
 import { IPropertyBase } from 'src/app/model/ipropertybase';
+import { of } from 'rxjs';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-property-list',
@@ -21,11 +23,13 @@ export class PropertyListComponent implements OnInit {
     this.housingservice.getAllProperties(this.sellRent).subscribe(
       data => {
         this.PropertiesList = data;
-        const newProperty = JSON.parse(localStorage.getItem('newProp'));
+        const newProperties = JSON.parse(localStorage.getItem('Properties'));
 
-        if (newProperty.SellRent === this.sellRent){
-          this.PropertiesList = [... this.PropertiesList, newProperty];
-        }
+        newProperties.forEach(prop => {
+          if (prop.SellRent === this.sellRent) {
+            this.PropertiesList = [... this.PropertiesList, prop];
+          }
+        });
 
         console.log(data);
       }, error => {
